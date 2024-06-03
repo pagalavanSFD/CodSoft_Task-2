@@ -1,0 +1,55 @@
+#!/bin/bash
+
+yum update -y
+
+yum install httpd -y
+
+echo "<h1> This is from $(hostname -f)</h1>"> /var/www/html/index.html
+
+systemctl enable httpd
+
+systemctl start httpd
+-----------------------
+sudo su
+yum install docker -y
+docker --version
+docker pull nginx:latest
+docker images
+docker run -d -p 80:80 nginx:latest
+docker volume create myvolume
+docker run -d --name mycontainer -v myvolume:/usr/share/nginx/html - 80:80 nginx
+docker inspect mycontainer
+------------------------
+sudo su
+yum install docker -y
+docker --version
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.7/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+mkdir DockerCompose
+cd DockerCompose/
+nano docker-compose.yml
+
+version: '3.8'
+
+services:
+  ubuntu:
+    image: ubuntu:latest
+    container_name: mycontainer1
+    command: sleep infinity
+
+  alpine:
+    image: alpine:latest
+    container_name: mycontainer2
+    command: sleep infinity
+
+networks:
+  default:
+    driver: bridge
+
+docker-compose up
+docker-compose up -d
+docker ps
+-----------------------------------
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
